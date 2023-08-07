@@ -6,7 +6,8 @@ import config from "./config";
 import errorHandler from "./middleware/errorHandler";
 import fourOhFour from "./middleware/fourOhFour";
 import root from "./routes/root";
-import initializePostgresConnection from "./database/connection";
+import dbInit from "./database/init";
+import apiRoutes from "./routes/api";
 
 const app = express();
 
@@ -22,13 +23,11 @@ app.use(helmet());
 app.use(morgan("tiny"));
 
 // Initialize database
-const initialiseDB = async () => {
-    await initializePostgresConnection();
-};
-initialiseDB();
+dbInit();
 
 // Apply routes before error handling
 app.use("/", root);
+app.use("/api", apiRoutes);
 
 // Apply error handling last
 app.use(fourOhFour);

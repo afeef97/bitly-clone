@@ -1,23 +1,24 @@
 import { DataTypes } from "sequelize";
 import postgresConnection from "../connection";
+import User from "./User";
 
-const User = postgresConnection.define(
-    "User",
+const Link = postgresConnection.define(
+    "Link",
     {
         // Model attributes are defined here
-        username: {
+        slug: {
             type: DataTypes.STRING,
             unique: true,
             allowNull: false,
         },
-        email: {
+        link: {
             type: DataTypes.STRING,
-            unique: true,
             allowNull: false,
         },
-        password: {
-            type: DataTypes.STRING,
+        visit_counter: {
+            type: DataTypes.INTEGER,
             allowNull: false,
+            defaultValue: 0,
         },
     },
     {
@@ -27,4 +28,8 @@ const User = postgresConnection.define(
     }
 );
 
-export default User;
+Link.belongsTo(User, {
+    foreignKey: "owner_id",
+});
+
+export default Link;

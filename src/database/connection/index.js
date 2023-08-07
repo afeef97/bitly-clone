@@ -1,17 +1,12 @@
 import { Sequelize } from "sequelize";
+import config from "../../config";
 
-export const sequelize = new Sequelize("bitly-clone", "postgres", "284120", {
-    host: "localhost",
+const { host, port, database, user, password } = config.postgres;
+
+export const postgresConnection = new Sequelize(database, user, password, {
+    host: host,
+    port: port,
     dialect: "postgres",
 });
 
-async function initializePostgresConnection() {
-    try {
-        await sequelize.authenticate();
-        console.log("Connection has been established successfully.");
-    } catch (error) {
-        console.error("Unable to connect to the database:", error);
-    }
-}
-
-export default initializePostgresConnection;
+export default postgresConnection;
