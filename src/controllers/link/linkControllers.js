@@ -2,7 +2,8 @@ import Link from "../../database/model/Link";
 import randomStringGenerator from "../../utils/helper/randomStringGen";
 
 export function createLink(req, res) {
-    const { owner_id, link } = req.body;
+    const { link } = req.body;
+    const owner_id = req.userData.id;
     const slug = randomStringGenerator(6);
 
     Link.create({ slug, link, owner_id })
@@ -15,8 +16,8 @@ export function createLink(req, res) {
 }
 
 export function updateLink(req, res) {
-    const { id, slug, link } = req.body;
-    Link.update({ slug, link }, { where: { id } })
+    const { id, link } = req.body;
+    Link.update({ link }, { where: { id } })
         .then((resUpdate) => {
             res.status(200).json({ message: "Link updated", resUpdate });
         })

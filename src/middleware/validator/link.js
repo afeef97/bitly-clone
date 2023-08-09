@@ -4,6 +4,6 @@ export const createLinkValidator = [
     body("link")
         .exists()
         .withMessage("is required")
-        .isURL({ protocols: ["HTTPS"] })
+        .isURL()
         .withMessage("is invalid"),
 ];
