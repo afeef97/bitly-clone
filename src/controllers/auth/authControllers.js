@@ -13,7 +13,6 @@ export async function loginUser(req, res) {
     const user = await User.findAll({
         where: { [Op.or]: [{ email: identifier }, { username: identifier }] },
     });
-    console.log(user[0].dataValues);
     const userData = user[0].dataValues;
 
     if (!userData) {
@@ -21,7 +20,7 @@ export async function loginUser(req, res) {
         return;
     }
 
-    bcrypt.compare(password, userData.user_password, (error, bcryptRes) => {
+    bcrypt.compare(password, userData.password, (error, bcryptRes) => {
         if (bcryptRes) {
             const token = generateAccessToken({
                 id: userData.id,
@@ -52,7 +51,7 @@ export function registerUser(req, res) {
     const { username, email, password } = req.body;
     const hashedPassword = hashPassword(password);
 
-    User.create({ username, email, hashedPassword })
+    User.create({ username, email, password: hashedPassword })
         .then((user) => {
             return res.status(200).json({
                 message: "Registration successful",
