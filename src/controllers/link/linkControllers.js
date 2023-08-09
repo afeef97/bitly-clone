@@ -26,7 +26,7 @@ export function updateLink(req, res) {
 }
 
 export function listAllLinkByUserID(req, res) {
-    const userId = req.params.userId;
+    const userId = req.userData.id;
     Link.findAndCountAll({
         //Can use findAll or findAndCountAll to get count and rows
         attributes: ["slug", "link", "visit_counter"],

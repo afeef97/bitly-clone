@@ -7,6 +7,8 @@ import {
 } from "../middleware/validator/auth";
 import validate from "../middleware/validator/validate";
 import { createLinkValidator } from "../middleware/validator/link";
+import isAuthenticated from "../middleware/isAuthenticated";
+import isOwner from "../middleware/isOwner";
 
 const apiRoutes = Router();
 
@@ -17,15 +19,25 @@ apiRoutes.post(
     authControllers.registerUser
 );
 apiRoutes.post("/login", loginValidator, validate, authControllers.loginUser);
-apiRoutes.get("/logout", authControllers.logoutUser);
+apiRoutes.get("/logout", isAuthenticated, authControllers.logoutUser);
 
 apiRoutes.post(
     "/createLink",
+    isAuthenticated,
     createLinkValidator,
     validate,
     linkControllers.createLink
 );
-apiRoutes.put("/createLink", linkControllers.updateLink);
-apiRoutes.get("/listAllLink/:userId", linkControllers.listAllLinkByUserID);
+apiRoutes.put(
+    "/createLink",
+    isAuthenticated,
+    isOwner,
+    linkControllers.updateLink
+);
+apiRoutes.get(
+    "/listAllLink",
+    isAuthenticated,
+    linkControllers.listAllLinkByUserID
+);
 
 export default apiRoutes;
