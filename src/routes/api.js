@@ -1,7 +1,5 @@
 import { Router } from "express";
-import registerUser from "../controllers/auth/postRegister";
-import { loginUser } from "../controllers/auth/postLogin";
-import logoutUser from "../controllers/auth/getLogout";
+import * as authControllers from "../controllers/auth/authControllers";
 import createLink from "../controllers/link/createLink";
 import updateLink from "../controllers/link/updateLink";
 import listAllByUserID from "../controllers/link/listLinkByUserID";
@@ -11,9 +9,9 @@ import { createLinkValidator } from "../middleware/validator/link";
 
 const apiRoutes = Router();
 
-apiRoutes.post("/register", registerUser);
-apiRoutes.post("/login", loginValidator, validate, loginUser);
-apiRoutes.get("/logout", logoutUser);
+apiRoutes.post("/register", authControllers.registerUser);
+apiRoutes.post("/login", loginValidator, validate, authControllers.loginUser);
+apiRoutes.get("/logout", authControllers.logoutUser);
 
 apiRoutes.post("/createLink", createLinkValidator, validate, createLink);
 apiRoutes.put("/createLink", updateLink);

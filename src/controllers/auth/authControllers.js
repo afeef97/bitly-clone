@@ -1,8 +1,12 @@
-import config from "../../config";
-import jsonwebtoken from "jsonwebtoken";
+import { Op } from "sequelize";
 import bcrypt from "bcryptjs";
 import User from "../../database/model/User";
-import { Op } from "sequelize";
+import generateAccessToken from "../../utils/helper/generateAccessToken";
+import hashPassword from "../../utils/helper/hashPassword";
+
+export function logoutUser(req, res) {
+    res.status(200).json({ message: "Hello world" });
+}
 
 export async function loginUser(req, res) {
     const { identifier, password } = req.body;
@@ -44,8 +48,19 @@ export async function loginUser(req, res) {
     });
 }
 
-function generateAccessToken(userData) {
-    return jsonwebtoken.sign(userData, config.jwtSecretToken, {
-        expiresIn: "1d",
-    });
+export function registerUser(req, res) {
+    const { username, email, password } = req.body;
+    const hashedPassword = hashPassword(password);
+
+    User.create({ username, email, hashedPassword })
+        .then((user) => {
+            return res.status(200).json({
+                message: "Registration successful",
+            });
+        })
+        .catch((err) => {
+            return res
+                .status(500)
+                .json({ message: "An error occured", data: err });
+        });
 }
