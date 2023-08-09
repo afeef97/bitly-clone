@@ -3,13 +3,21 @@ import * as authControllers from "../controllers/auth/authControllers";
 import createLink from "../controllers/link/createLink";
 import updateLink from "../controllers/link/updateLink";
 import listAllByUserID from "../controllers/link/listLinkByUserID";
-import { loginValidator } from "../middleware/validator/auth";
+import {
+    loginValidator,
+    registerValidator,
+} from "../middleware/validator/auth";
 import validate from "../middleware/validator/validate";
 import { createLinkValidator } from "../middleware/validator/link";
 
 const apiRoutes = Router();
 
-apiRoutes.post("/register", authControllers.registerUser);
+apiRoutes.post(
+    "/register",
+    registerValidator,
+    validate,
+    authControllers.registerUser
+);
 apiRoutes.post("/login", loginValidator, validate, authControllers.loginUser);
 apiRoutes.get("/logout", authControllers.logoutUser);
 
