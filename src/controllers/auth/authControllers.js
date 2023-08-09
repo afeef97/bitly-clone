@@ -4,10 +4,6 @@ import User from "../../database/model/User";
 import generateAccessToken from "../../utils/helper/generateAccessToken";
 import hashPassword from "../../utils/helper/hashPassword";
 
-export function logoutUser(req, res) {
-    res.status(200).json({ message: "Hello world" });
-}
-
 export async function loginUser(req, res) {
     const { identifier, password } = req.body;
     const user = await User.findAll({

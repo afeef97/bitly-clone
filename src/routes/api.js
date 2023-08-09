@@ -19,7 +19,6 @@ apiRoutes.post(
     authControllers.registerUser
 );
 apiRoutes.post("/login", loginValidator, validate, authControllers.loginUser);
-apiRoutes.get("/logout", isAuthenticated, authControllers.logoutUser);
 
 apiRoutes.post(
     "/createLink",
