@@ -1,8 +1,6 @@
 import { Router } from "express";
 import * as authControllers from "../controllers/auth/authControllers";
-import createLink from "../controllers/link/createLink";
-import updateLink from "../controllers/link/updateLink";
-import listAllByUserID from "../controllers/link/listLinkByUserID";
+import * as linkControllers from "../controllers/link/linkControllers";
 import {
     loginValidator,
     registerValidator,
@@ -21,8 +19,13 @@ apiRoutes.post(
 apiRoutes.post("/login", loginValidator, validate, authControllers.loginUser);
 apiRoutes.get("/logout", authControllers.logoutUser);
 
-apiRoutes.post("/createLink", createLinkValidator, validate, createLink);
-apiRoutes.put("/createLink", updateLink);
-apiRoutes.get("/listAllLink/:userId", listAllByUserID);
+apiRoutes.post(
+    "/createLink",
+    createLinkValidator,
+    validate,
+    linkControllers.createLink
+);
+apiRoutes.put("/createLink", linkControllers.updateLink);
+apiRoutes.get("/listAllLink/:userId", linkControllers.listAllLinkByUserID);
 
 export default apiRoutes;
