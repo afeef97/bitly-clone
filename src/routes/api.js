@@ -39,4 +39,11 @@ apiRoutes.get(
     linkControllers.listAllLinkByUserID
 );
 
+apiRoutes.get("/protected", isAuthenticated, (req, res) => {
+    res.status(200).json({
+        message: "You are authenticated",
+        data: req.userData,
+    });
+});
+
 export default apiRoutes;

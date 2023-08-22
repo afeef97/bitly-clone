@@ -10,7 +10,7 @@ function isAuthenticated(req, res, next) {
     }
 
     jsonwebtoken.verify(token, config.jwtSecretToken, (err, userData) => {
-        if (err) return res.status(400).json({ message: "Unauthorized" });
+        if (err) return res.status(400).json({ message: "Unauthorized", err });
 
         req.userData = userData;
         next();

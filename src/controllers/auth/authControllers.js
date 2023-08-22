@@ -9,7 +9,7 @@ export async function loginUser(req, res) {
     const user = await User.findAll({
         where: { [Op.or]: [{ email: identifier }, { username: identifier }] },
     });
-    const userData = user[0].dataValues;
+    const userData = user[0]?.dataValues;
 
     if (!userData) {
         res.status(400).json({ message: "Login failed" });
