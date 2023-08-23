@@ -33,6 +33,14 @@ apiRoutes.put(
     isOwner,
     linkControllers.updateLink
 );
+
+apiRoutes.delete(
+    "/createLink",
+    isAuthenticated,
+    isOwner,
+    linkControllers.deleteLink
+);
+
 apiRoutes.get(
     "/listAllLink",
     isAuthenticated,

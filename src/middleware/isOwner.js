@@ -2,13 +2,13 @@ import Link from "../database/model/Link";
 
 async function isOwner(req, res, next) {
     const currentUserId = req.userData.id;
-    const linkId = req.body.id;
+    const linkId = req.query.id;
 
     const ownerId = await Link.findOne({
         attributes: ["owner_id"],
         where: { id: linkId },
     })
-        .then((user) => user.owner_id)
+        .then((user) => user.dataValues.owner_id)
         .catch((err) => {
             return res
                 .status(500)

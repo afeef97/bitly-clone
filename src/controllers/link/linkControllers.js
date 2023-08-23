@@ -27,11 +27,11 @@ export function updateLink(req, res) {
 }
 
 export function deleteLink(req, res) {
-    const { id } = req.body;
+    const id = req.query.id;
     Link.destroy({ where: { id } })
-        .then((resDelete) => {
-            res.status(200).json({ message: "Link deleted", resDelete });
-        })
+        .then((resDelete) =>
+            res.status(200).json({ message: "Link deleted", resDelete })
+        )
         .catch((err) => {
             res.status(500).json({ message: "Delete failed", err });
         });
@@ -41,8 +41,8 @@ export function listAllLinkByUserID(req, res) {
     const userId = req.userData.id;
     Link.findAndCountAll({
         //Can use findAll or findAndCountAll to get count and rows
-        attributes: ["slug", "link", "visit_counter"],
-        order: [["slug", "ASC"]],
+        attributes: ["slug", "link", "visit_counter", "created_at", "id"],
+        order: [["created_at", "ASC"]],
         where: {
             owner_id: userId,
         },
