@@ -16,8 +16,11 @@ export function createLink(req, res) {
 }
 
 export function updateLink(req, res) {
-    const { id, link } = req.body;
-    Link.update({ link }, { where: { id } })
+    const { link } = req.body;
+    const id = req.query.id;
+    console.log(link, id);
+
+    Link.update({ link }, { where: { id: id } })
         .then((resUpdate) => {
             res.status(200).json({ message: "Link updated", resUpdate });
         })

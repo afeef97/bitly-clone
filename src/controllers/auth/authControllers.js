@@ -54,8 +54,10 @@ export function registerUser(req, res) {
             });
         })
         .catch((err) => {
-            return res
-                .status(500)
-                .json({ message: "An error occured", data: err });
+            console.log(err.message);
+            return res.status(500).json({
+                message: "An error occured",
+                error: { ...err, msg: err.message },
+            });
         });
 }
